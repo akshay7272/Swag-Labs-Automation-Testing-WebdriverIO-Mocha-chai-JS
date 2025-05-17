@@ -1,6 +1,6 @@
 import {expect as chaiExpect} from 'chai'
 import loginPage from '../pageobjects/login.page.js'
-import InventoryPage from '../pageobjects/Inventory.page.js'
+import InventoryPage from '../pageobjects/inventory.page.js'
 
 describe('Inventory Page Tests',async()=>{
     xit('Verify all products are displayed',async()=>{
