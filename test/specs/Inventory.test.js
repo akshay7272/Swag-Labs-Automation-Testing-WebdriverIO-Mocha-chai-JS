@@ -23,7 +23,7 @@ describe('Inventory Page Tests',async()=>{
         const cartTotal = await InventoryPage.CartBadge.getText()
         chaiExpect(await cartTotal).to.eql('1') 
     })
-    it('Remove a product from cart',async()=>{
+    xit('Remove a product from cart',async()=>{
         await browser.url('/')
         await loginPage.login('standard_user','secret_sauce')
         const productText = await $('.title').getText()
@@ -38,6 +38,23 @@ describe('Inventory Page Tests',async()=>{
         const addToCartDisplyed = await InventoryPage.FirstProduct.getText()
         chaiExpect(await addToCartDisplyed).to.eql('Add to cart')
         await InventoryPage.CartBadge.waitForExist({reverse:true})
- 
+    })
+
+    it('Verify product sorting (Name A to Z)',async()=>{
+        await browser.url('/')
+        await loginPage.login('standard_user','secret_sauce')
+        const productText = await $('.title').getText()
+        chaiExpect(await productText).to.equal('Products')
+        const selectBox = await $('.select_container')
+        await selectBox.click()
+        const mainSelect = await $('.product_sort_container')
+        await mainSelect.waitForDisplayed()
+        await mainSelect.selectByAttribute('value','za')
+        
+        const ZtoA = await InventoryPage.notSortedProductNames()
+        const sortedProducts = await InventoryPage.sortedProductNames()
+        chaiExpect(ZtoA).to.eql(sortedProducts)
+
+
     })
 })

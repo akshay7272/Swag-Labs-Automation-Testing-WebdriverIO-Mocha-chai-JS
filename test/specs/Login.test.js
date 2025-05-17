@@ -16,7 +16,7 @@ describe('Login Page E2E Test',async()=>{
    xit('Login with valid credentials--regression',async()=>{
       await browser.url('/')
       await loginPage.login('standard_user','secret_sauce')
-      await expect(browser).toHaveUrl(expect.stringContaining('inventory'))
+      await expect(browser).toHaveUrlContaining('inventory.html');
       const productText = await $('.title').getText()
       chaiExpect(await productText).to.equal('Products')
    })
