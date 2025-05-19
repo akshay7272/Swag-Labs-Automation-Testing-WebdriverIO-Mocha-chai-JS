@@ -32,4 +32,4 @@ class LoginPage {
 
 }
 
-export default new LoginPage();
+module.exports =  new LoginPage();

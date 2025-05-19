@@ -71,4 +71,4 @@ async notSortedProductNames() {
     return $(".shopping_cart_badge");
   }
 }
-export default new InventoryPage();
+module.exports = new InventoryPage();

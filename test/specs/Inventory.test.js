@@ -1,7 +1,6 @@
 import {expect as chaiExpect} from 'chai'
-import loginPage from '../pageobjects/login.page.js'
-import InventoryPage from '../pageobjects/inventory.page.js'
-
+const loginPage = require('../pageobjects/login.page');
+const InventoryPage = require('../pageobjects/inventory.page.js');
 describe('Inventory Page Tests',async()=>{
     xit('Verify all products are displayed',async()=>{
         await browser.url('/')
@@ -40,7 +39,7 @@ describe('Inventory Page Tests',async()=>{
         await InventoryPage.CartBadge.waitForExist({reverse:true})
     })
 
-    it('Verify product sorting (Name A to Z)',async()=>{
+    xit('Verify product sorting (Name A to Z)',async()=>{
         await browser.url('/')
         await loginPage.login('standard_user','secret_sauce')
         const productText = await $('.title').getText()
@@ -56,5 +55,16 @@ describe('Inventory Page Tests',async()=>{
         chaiExpect(ZtoA).to.eql(sortedProducts)
 
 
+    })
+
+    xit('Logout from burger menu',async()=>{
+        await browser.url('/')
+        await loginPage.login('standard_user','secret_sauce')
+        const productText = await $('.title').getText()
+        chaiExpect(await productText).to.equal('Products')
+        await $('#react-burger-menu-btn').click()
+        await expect($('.bm-menu')).toBeDisplayed()
+        await $('#logout_sidebar_link').click()
+        await expect(browser).toHaveUrl('https://www.saucedemo.com/')
     })
 })

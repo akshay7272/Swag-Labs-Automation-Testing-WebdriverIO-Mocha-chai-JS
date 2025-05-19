@@ -1,5 +1,5 @@
 import {expect as chaiExpect} from 'chai'
-import loginPage from '../pageobjects/login.page.js'
+const loginPage = require('../pageobjects/login.page');
 describe('Login Page E2E Test',async()=>{
    xit('Checking Login Page UI Elements Visibility--smoke',async()=>{
     await browser.url('/')

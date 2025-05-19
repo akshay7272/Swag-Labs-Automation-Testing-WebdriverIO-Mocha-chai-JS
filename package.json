@@ -1,6 +1,8 @@
 {
   "name": "swag-labs",
-  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "commonjs",
   "devDependencies": {
     "@wdio/cli": "^9.14.0",
     "@wdio/local-runner": "^9.14.0",
