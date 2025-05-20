@@ -19,6 +19,20 @@ class Cart {
     }
     return VisibleItems
   }
+
+// async test() {
+//   const visibleItems = await this.MatchAddedCartItems();
+
+//   const processedItems = await Promise.all(
+//     visibleItems.map(async (item) => {
+//       return item;
+//     })
+//   );
+
+//   return processedItems;
+// }
+
+
   async SortAddedCartItems() {
     const cartItems = await this.MatchAddedCartItems()
     const updatedValues = cartItems.sort()
