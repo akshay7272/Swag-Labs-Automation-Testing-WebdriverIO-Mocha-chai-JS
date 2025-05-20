@@ -58,7 +58,7 @@ describe('Checkout Flow Tests',async()=>{
         });
       });
       fs.forEach(({ productsData }) => {
-        xit("Verify order summary and finish", async () => {
+        it("Verify order summary and finish", async () => {
           await browser.url("/");
           await loginPage.login("standard_user", "secret_sauce");
           const productText = await $(".title").getText();
@@ -75,10 +75,13 @@ describe('Checkout Flow Tests',async()=>{
           await Checkout.CheckoutFullDetailsCheckout('Akshay','Kumar','154356')
           const CheckoutOverviewPageTitle = await Checkout.CheckoutOverviewPageTitle.getText()
           chaiExpect(CheckoutOverviewPageTitle).to.eql('Checkout: Overview')
-
-         // Compare products and Price total to verify
-
-
+          
+         // Compare products to verify
+          const data2 = await cartPage.MatchAddedCartItems()
+          chaiExpect([...data2].sort()).to.eql([...productsData].sort())
+         // Compare Price total to verify
+          const CartPrices = await Checkout.CheckoutAmountValues() 
+          console.log(await CartPrices) 
           const FinishBtn = await Checkout.CheckoutFinishButton
           await FinishBtn.scrollIntoView()
           await FinishBtn.click()

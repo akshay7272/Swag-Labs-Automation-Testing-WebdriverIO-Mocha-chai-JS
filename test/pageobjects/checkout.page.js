@@ -37,6 +37,23 @@ class Checkout {
     get CheckoutContinueBtn() {
         return $('#continue')
     }
+    get CheckoutAmountCards() {
+        return $$('.inventory_item_price')
+    }
+    
+   
+
+    async CheckoutAmountValues() {
+        const AmountValues = [] 
+        const CardItems = await this.CheckoutAmountCards
+        for(const Items of CardItems) {
+            const dataValues = await Items.getText()
+            const cleaned = dataValues.replace(/[^\d.]/g, "");
+            const numericValue = parseFloat(cleaned, 10);
+            AmountValues.push(numericValue)
+        } 
+        return AmountValues
+    }
 
     async CheckoutFullDetailsCheckout(firstName,lastName,zipCode){
          await this.CheckoutUserFirstName.setValue(firstName)
@@ -50,6 +67,7 @@ class Checkout {
          await this.CheckoutUserLastName.setValue(lastName)
          await this.CheckoutContinueBtn.click()
     }
+
 }
 
 module.exports = new Checkout();
