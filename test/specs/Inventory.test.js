@@ -2,7 +2,7 @@ import {expect as chaiExpect} from 'chai'
 const loginPage = require('../pageobjects/login.page');
 const InventoryPage = require('../pageobjects/inventory.page.js');
 describe('Inventory Page Tests',async()=>{
-    xit('Verify all products are displayed',async()=>{
+    it('Verify all products are displayed--Smoke, Regression',async()=>{
         await browser.url('/')
         await loginPage.login('standard_user','secret_sauce')
         const productText = await $('.title').getText()
@@ -11,7 +11,7 @@ describe('Inventory Page Tests',async()=>{
         console.log(await totalItems,'total')
         chaiExpect(await totalItems).to.eql(6)
     })
-    xit('Add first product to cart',async()=>{
+    it('Add a product to cart--Smoke, Regression',async()=>{
         await browser.url('/')
         await loginPage.login('standard_user','secret_sauce')
         const productText = await $('.title').getText()
@@ -22,7 +22,7 @@ describe('Inventory Page Tests',async()=>{
         const cartTotal = await InventoryPage.CartBadge.getText()
         chaiExpect(await cartTotal).to.eql('1') 
     })
-    xit('Remove a product from cart',async()=>{
+    it('Remove a product from cart--Regression',async()=>{
         await browser.url('/')
         await loginPage.login('standard_user','secret_sauce')
         const productText = await $('.title').getText()
@@ -39,7 +39,7 @@ describe('Inventory Page Tests',async()=>{
         await InventoryPage.CartBadge.waitForExist({reverse:true})
     })
 
-    xit('Verify product sorting (Name A to Z)',async()=>{
+    it('Verify product sorting (Name A to Z)--Regression',async()=>{
         await browser.url('/')
         await loginPage.login('standard_user','secret_sauce')
         const productText = await $('.title').getText()
@@ -57,7 +57,7 @@ describe('Inventory Page Tests',async()=>{
 
     })
 
-    xit('Logout from burger menu',async()=>{
+    it('Logout from burger menu--Regression',async()=>{
         await browser.url('/')
         await loginPage.login('standard_user','secret_sauce')
         const productText = await $('.title').getText()

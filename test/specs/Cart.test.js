@@ -7,7 +7,7 @@ import {expect as chaiExpect} from 'chai'
 
 describe("Cart Page Tests", () => {
     fs.forEach(({productsData}) => {
-        xit("Add multiple items and verify in cart", async () => {
+        it("Add multiple items and verify in cart--Regression", async () => {
             await browser.url("/");
             await loginPage.login("standard_user", "secret_sauce");
 
@@ -25,7 +25,7 @@ describe("Cart Page Tests", () => {
         });
     });
     fs.forEach(({productsData}) => {
-        xit("Remove item from cart", async () => {
+        it("Remove item from cart--Regression", async () => {
             await browser.url("/");
             await loginPage.login("standard_user", "secret_sauce");
             const productText = await $(".title").getText();

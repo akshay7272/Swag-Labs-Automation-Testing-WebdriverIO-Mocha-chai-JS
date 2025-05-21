@@ -1,7 +1,7 @@
 import {expect as chaiExpect} from 'chai'
 const loginPage = require('../pageobjects/login.page');
-describe('Login Page E2E Test',async()=>{
-   xit('Checking Login Page UI Elements Visibility--smoke',async()=>{
+describe('Login Page Test',async()=>{
+   it('Checking Login Page UI Elements Visibility--Smoke, Regression',async()=>{
     await browser.url('/')
     const userNameField =  await loginPage.inputUsername
     const userPasswordField = await loginPage.inputPassword
@@ -13,15 +13,15 @@ describe('Login Page E2E Test',async()=>{
     await expect(userSubmitButton).toBePresent()
    })
 
-   xit('Login with valid credentials--regression',async()=>{
+   it('Login with valid credentials--Smoke, Regression',async()=>{
       await browser.url('/')
       await loginPage.login('standard_user','secret_sauce')
-      await expect(browser).toHaveUrlContaining('inventory.html');
+      await expect(browser).toHaveUrl(expect.stringContaining('inventory.html'));
       const productText = await $('.title').getText()
       chaiExpect(await productText).to.equal('Products')
    })
 
-   xit('Login with invalid credentials',async()=>{
+   it('Login with invalid credentials--Regression',async()=>{
       await browser.url('/')
       await loginPage.login('dards_user','secrret_sauce')
       const errorMessageContainer = await $('.error-message-container')
@@ -29,7 +29,7 @@ describe('Login Page E2E Test',async()=>{
       const errorText = await $("h3[data-test='error']").getText()
       chaiExpect(await errorText).to.eql('Epic sadface: Username and password do not match any user in this service')
    })
-   xit('Login with locked out user',async()=>{
+   it('Login with locked out user--Regression',async()=>{
       await browser.url('/')
       await loginPage.login('locked_out_user','secret_sauce')
       const errorMessageContainer = await $('.error-message-container')

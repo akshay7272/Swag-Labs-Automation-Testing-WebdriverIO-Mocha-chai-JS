@@ -7,7 +7,7 @@ import { expect as chaiExpect } from "chai";
 
 describe('Checkout Flow Tests',async()=>{
       fs.forEach(({ productsData }) => {
-        xit("Checkout with valid info", async () => {
+        it("Checkout with valid info--Smoke, Regression, Sanity, E2E", async () => {
           await browser.url("/");
           await loginPage.login("standard_user", "secret_sauce");
           const productText = await $(".title").getText();
@@ -38,7 +38,7 @@ describe('Checkout Flow Tests',async()=>{
       });
 
         fs.forEach(({ productsData }) => {
-        xit("Checkout with missing info", async () => {
+        it("Checkout with missing info--Regression, Sanity, E2E", async () => {
           await browser.url("/");
           await loginPage.login("standard_user", "secret_sauce");
           const productText = await $(".title").getText();
@@ -58,7 +58,7 @@ describe('Checkout Flow Tests',async()=>{
         });
       });
       fs.forEach(({ productsData }) => {
-        it("Verify order summary and finish", async () => {
+        it("Verify order summary and finish--Smoke, Regression, Sanity, E2E", async () => {
           await browser.url("/");
           await loginPage.login("standard_user", "secret_sauce");
           const productText = await $(".title").getText();
@@ -68,7 +68,7 @@ describe('Checkout Flow Tests',async()=>{
           const cartTitle = await $(".title").getText();
           chaiExpect(await cartTitle).to.eqls("Your Cart");
           const data = await cartPage.MatchAddedCartItems();
-          assert.deepStrictEqual([...data].sort(), [...productsData].sort());         
+          await assert.deepStrictEqual([...data].sort(), [...productsData].sort());         
           await Checkout.CheckoutBtn.click()
           const CheckoutInfoTitle = await Checkout.CheckoutInformationPageTitle.getText()
            await chaiExpect(CheckoutInfoTitle).to.eql('Checkout: Your Information')
@@ -76,12 +76,19 @@ describe('Checkout Flow Tests',async()=>{
           const CheckoutOverviewPageTitle = await Checkout.CheckoutOverviewPageTitle.getText()
           chaiExpect(CheckoutOverviewPageTitle).to.eql('Checkout: Overview')
           
-         // Compare products to verify
+         // Comparing products to verify
           const data2 = await cartPage.MatchAddedCartItems()
-          chaiExpect([...data2].sort()).to.eql([...productsData].sort())
-         // Compare Price total to verify
+          await expect([...data2].sort()).toHaveText([...productsData].sort())
+         // Comparing Price total to verify
           const CartPrices = await Checkout.CheckoutAmountValues() 
-          console.log(await CartPrices) 
+          // console.log(await CartPrices) 
+          const CartPricesTotal = CartPrices.reduce((acc, curr) => acc + curr, 0);
+          // console.log(await CartPricesTotal)
+          const ActualUiDisplayedTotal = await $('.summary_subtotal_label').getText()
+          const cleaned = await ActualUiDisplayedTotal.replace(/[^\d.]/g, "");
+          const numericValue = await parseFloat(cleaned, 10);
+          // console.log(await numericValue)
+          chaiExpect(await CartPricesTotal).is.eqls(numericValue)
           const FinishBtn = await Checkout.CheckoutFinishButton
           await FinishBtn.scrollIntoView()
           await FinishBtn.click()
@@ -89,6 +96,9 @@ describe('Checkout Flow Tests',async()=>{
           const CheckoutConfirmMsg = await Checkout.CheckoutConfirmMessage.getText()
           chaiExpect(CheckoutCompletePageTitle).to.eql('Checkout: Complete!')
           chaiExpect(CheckoutConfirmMsg).to.be.eqls('Thank you for your order!')
+
+          await $('#back-to-products').click()
+          await expect(browser).toHaveUrl(expect.stringContaining('inventory.html'))
          
         });
       });

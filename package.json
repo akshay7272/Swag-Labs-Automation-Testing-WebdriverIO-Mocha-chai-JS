@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "commonjs",
+  "scripts": {
+    "SmokeTests": "npx wdio run ./wdio.conf.js --mochaOpts.grep Smoke",
+    "SanityTests": "npx wdio run ./wdio.conf.js --mochaOpts.grep Sanity",
+    "RegressionTests": "npx wdio run ./wdio.conf.js --mochaOpts.grep Regression",
+    "E2ETests": "npx wdio run ./wdio.conf.js --mochaOpts.grep E2E"
+  },
   "devDependencies": {
     "@wdio/cli": "^9.14.0",
     "@wdio/local-runner": "^9.14.0",

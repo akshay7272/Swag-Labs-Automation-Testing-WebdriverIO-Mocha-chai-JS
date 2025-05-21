@@ -22,7 +22,6 @@ exports.config = {
     //
     specs: [
         './test/specs/**/*.js',
-        // './test/specs/Cart.test.js'
     ],
     // Patterns to exclude.
     exclude: [
