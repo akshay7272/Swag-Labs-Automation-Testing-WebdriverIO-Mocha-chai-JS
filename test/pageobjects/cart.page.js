@@ -9,13 +9,24 @@ class Cart {
     return $$('.cart_item')
   }
 
+  async ClearCart() {
+  const cartBadge = await $('.shopping_cart_badge');
+  if (await cartBadge.isExisting()) {
+    await this.CartPage.click();
+    const removeButtons = await $$("button[id^='remove']");
+    for (const btn of removeButtons) {
+      await btn.click();
+    }
+    await $("#continue-shopping").click(); // Back to inventory
+  }
+}
+
   async MatchAddedCartItems() {
     let VisibleItems = [];
     const Items = await this.CartItems
-    for(const item of Items) {
+    for(const item of await Items) {
       let itemName = await item.$('.inventory_item_name').getText()
-      VisibleItems.push(itemName)
-      
+       VisibleItems.push(await itemName)
     }
     return VisibleItems
   }
@@ -40,6 +51,7 @@ class Cart {
   }
 
   async AddProductsToCart(products) {
+    await this.ClearCart()
     const cardsM = await this.ProductCards;
     for (const productCard of cardsM) {
       const productNameElement = await productCard.$(".inventory_item_name");

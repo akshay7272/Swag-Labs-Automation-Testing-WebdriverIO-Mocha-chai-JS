@@ -40,7 +40,7 @@ async notSortedProductNames() {
   const products = await this.Products; 
   const productNames = [];
 
-  for (const product of products) {
+  for (const product of await products) {
     const nameElement = await product.$(".inventory_item_name");
     const nameText = await nameElement.getText();
     productNames.push(nameText);
@@ -49,20 +49,20 @@ async notSortedProductNames() {
 }
 
 //Getting Prices of products ---work on it
-async notSortedProductNames() {
-  const products = await this.Products; 
-  const productNames = [];
+// async notSortedProductNames() {
+//   const products = await this.Products; 
+//   const productNames = [];
 
-  for (const product of products) {
-    const nameElement = await product.$(".inventory_item_price");
-    const nameText = await nameElement.getText();
-    const cleaned = await nameText.replace(/[^\d]/g, "");
-    const numericValue = parseInt(cleaned, 10);
-    console.log(numericValue,'numeric')
-    productNames.push(numericValue);
-  }
-  return productNames;
-}
+//   for (const product of products) {
+//     const nameElement = await product.$(".inventory_item_price");
+//     const nameText = await nameElement.getText();
+//     const cleaned = await nameText.replace(/[^\d]/g, "");
+//     const numericValue = parseFLoat(cleaned, 10);
+//     console.log(numericValue,'numeric')
+//     productNames.push(numericValue);
+//   }
+//   return productNames;
+// }
 
   get FirstProduct() {
     return $(".inventory_list .inventory_item:nth-child(1) button");

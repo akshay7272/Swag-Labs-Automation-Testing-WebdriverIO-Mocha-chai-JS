@@ -66,26 +66,29 @@ describe('Checkout Flow Tests',async()=>{
           await cartPage.AddProductsToCart(productsData);
           await cartPage.CartPage.click();
           const cartTitle = await $(".title").getText();
-          chaiExpect(await cartTitle).to.eqls("Your Cart");
+          chaiExpect(await cartTitle).to.eqls("Your Cart"); 
           const data = await cartPage.MatchAddedCartItems();
-          await assert.deepStrictEqual([...data].sort(), [...productsData].sort());         
+          // console.log("Cart Items Found:", data);
+          // console.log("Expected Products:", productsData);
+          await chaiExpect([...data].sort()).to.eql([...productsData].sort());       
           await Checkout.CheckoutBtn.click()
           const CheckoutInfoTitle = await Checkout.CheckoutInformationPageTitle.getText()
-           await chaiExpect(CheckoutInfoTitle).to.eql('Checkout: Your Information')
+          await chaiExpect(CheckoutInfoTitle).to.eql('Checkout: Your Information')
           await Checkout.CheckoutFullDetailsCheckout('Akshay','Kumar','154356')
           const CheckoutOverviewPageTitle = await Checkout.CheckoutOverviewPageTitle.getText()
           chaiExpect(CheckoutOverviewPageTitle).to.eql('Checkout: Overview')
-          
          // Comparing products to verify
           const data2 = await cartPage.MatchAddedCartItems()
-          await expect([...data2].sort()).toHaveText([...productsData].sort())
+          await chaiExpect([...data2].sort()).to.eql([...productsData].sort())
          // Comparing Price total to verify
           const CartPrices = await Checkout.CheckoutAmountValues() 
           // console.log(await CartPrices) 
           const CartPricesTotal = CartPrices.reduce((acc, curr) => acc + curr, 0);
-          // console.log(await CartPricesTotal)
-          const ActualUiDisplayedTotal = await $('.summary_subtotal_label').getText()
-          const cleaned = await ActualUiDisplayedTotal.replace(/[^\d.]/g, "");
+          const ActualUiDisplayedTotal = await $('.summary_subtotal_label')
+          await ActualUiDisplayedTotal.scrollIntoView()
+          await browser.pause(3000)
+          const ActualUiDisplayed = await ActualUiDisplayedTotal.getText()
+          const cleaned = await ActualUiDisplayed.replace(/[^\d.]/g, "");
           const numericValue = await parseFloat(cleaned, 10);
           // console.log(await numericValue)
           chaiExpect(await CartPricesTotal).is.eqls(numericValue)
@@ -93,13 +96,11 @@ describe('Checkout Flow Tests',async()=>{
           await FinishBtn.scrollIntoView()
           await FinishBtn.click()
           const CheckoutCompletePageTitle = await Checkout.CheckoutCompletePageTitle.getText()
+          chaiExpect(await CheckoutCompletePageTitle).to.eql('Checkout: Complete!')
           const CheckoutConfirmMsg = await Checkout.CheckoutConfirmMessage.getText()
-          chaiExpect(CheckoutCompletePageTitle).to.eql('Checkout: Complete!')
-          chaiExpect(CheckoutConfirmMsg).to.be.eqls('Thank you for your order!')
-
+          chaiExpect(await CheckoutConfirmMsg).to.be.eqls('Thank you for your order!')
           await $('#back-to-products').click()
           await expect(browser).toHaveUrl(expect.stringContaining('inventory.html'))
-         
         });
       });
 })

@@ -35,12 +35,12 @@ describe("Cart Page Tests", () => {
             const cartTitle = await $('.title').getText()
             chaiExpect(await cartTitle).to.eqls('Your Cart')
             const data = await cartPage.MatchAddedCartItems()
-            console.log([...data],'first')
-            console.log([...productsData],'first1')
-            assert.deepStrictEqual([...data].sort(), [...productsData].sort());
-            const productApperance = await $("//div[@class='cart_item'])[1]")
+            console.log(await [...data],'first')
+            console.log(await [...productsData],'first1')
+            chaiExpect([...data].sort()).to.eql([...productsData].sort());
+            const productApperance = await $("//div[@class='cart_item']//div[@class='inventory_item_name'][contains(text(),'Sauce Labs Backpack')]")
             await $("//button[@id='remove-sauce-labs-backpack']").click()
-            await expect(productApperance).waitForExistance({reverse:true})
+            await expect(productApperance).not.toBeDisplayed();
         });
          });
         });

@@ -1,4 +1,5 @@
 import {expect as chaiExpect} from 'chai'
+import cartPage from '../pageobjects/cart.page';
 const loginPage = require('../pageobjects/login.page');
 const InventoryPage = require('../pageobjects/inventory.page.js');
 describe('Inventory Page Tests',async()=>{
@@ -27,6 +28,7 @@ describe('Inventory Page Tests',async()=>{
         await loginPage.login('standard_user','secret_sauce')
         const productText = await $('.title').getText()
         chaiExpect(await productText).to.equal('Products')
+        await cartPage.ClearCart()
         await InventoryPage.FirstProduct.click()
         await InventoryPage.CartBadge.waitForExist()
         const removeText = await InventoryPage.FirstProduct.getText()
@@ -49,12 +51,9 @@ describe('Inventory Page Tests',async()=>{
         const mainSelect = await $('.product_sort_container')
         await mainSelect.waitForDisplayed()
         await mainSelect.selectByAttribute('value','za')
-        
         const ZtoA = await InventoryPage.notSortedProductNames()
         const sortedProducts = await InventoryPage.sortedProductNames()
         chaiExpect(ZtoA).to.eql(sortedProducts)
-
-
     })
 
     it('Logout from burger menu--Regression',async()=>{
