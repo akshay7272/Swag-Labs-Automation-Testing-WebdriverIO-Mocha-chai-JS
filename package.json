@@ -7,14 +7,21 @@
     "SmokeTests": "npx wdio run ./wdio.conf.js --mochaOpts.grep Smoke",
     "SanityTests": "npx wdio run ./wdio.conf.js --mochaOpts.grep Sanity",
     "RegressionTests": "npx wdio run ./wdio.conf.js --mochaOpts.grep Regression",
-    "E2ETests": "npx wdio run ./wdio.conf.js --mochaOpts.grep E2E"
+    "E2ETests": "npx wdio run ./wdio.conf.js --mochaOpts.grep E2E",
+    "AllTests": "npx wdio run ./wdio.conf.js",
+    "GenerateReport": "npx allure generate allure-results --clean",
+    "OpenReport": "npx allure open"
   },
   "devDependencies": {
+    "@wdio/allure-reporter": "^9.14.0",
     "@wdio/cli": "^9.14.0",
     "@wdio/local-runner": "^9.14.0",
     "@wdio/mocha-framework": "^9.14.0",
     "@wdio/spec-reporter": "^9.14.0",
     "@wdio/visual-service": "^8.0.1",
     "chai": "^5.2.0"
+  },
+  "dependencies": {
+    "allure-commandline": "^2.34.0"
   }
 }

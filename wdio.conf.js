@@ -50,7 +50,29 @@ exports.config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        browserName: 'chrome'
+      maxInstances: 5,
+      browserName: 'chrome',
+      acceptInsecureCerts: true,
+      'goog:chromeOptions': {
+        args: [
+        //   '--headless=new', 
+          '--start-maximized',
+          '--disable-infobars',
+          '--disable-popup-blocking',
+          '--disable-notifications',
+          '--no-default-browser-check',
+          '--disable-extensions',
+          '--disable-translate',
+          '--disable-autofill-keyboard-accessory-view'
+        ],
+        excludeSwitches: ['enable-automation', 'load-extension'],
+        prefs: {
+          'credentials_enable_service': false,
+          'profile.password_manager_enabled': false,
+          'profile.default_content_setting_values.notifications': 2, // block all notifications
+          'profile.default_content_settings.popups': 0
+        }
+      }
     }],
 
     //
@@ -131,6 +153,14 @@ exports.config = {
         ui: 'bdd',
         timeout: 60000
     },
+
+     // Configured Allured Configuration
+      // ...
+      reporters: [['allure', {
+          outputDir: 'allure-results',
+          // disableWebdriverStepsReporting: true,
+          disableWebdriverScreenshotsReporting: false,
+      }]],
 
     //
     // =====
