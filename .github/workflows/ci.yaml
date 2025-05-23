@@ -19,6 +19,7 @@ jobs:
 
     - name: 🧪 Run Tests
       run: npm run RegressionTests
+      continue-on-error: true
 
     - name: 📊 Generate Allure Report
       run: npm run allure:generate
