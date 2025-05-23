@@ -1,25 +1,31 @@
 name: CI
 on: [push, pull_request]
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-        - name: ⬇️ Checkout Code
-          uses: actions/checkout@v4
+    - name: ⬇️ Checkout Code
+      uses: actions/checkout@v4
 
-        - name: 🐢 Setup Node
-          uses: actions/setup-node@v4
-          with:
-            node-version: 22
+    - name: 🐢 Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
 
-        - name: 🏗️ Install Dependencies
-          run: npm install
+    - name: 🏗️ Install Dependencies
+      run: npm install
 
-        - name: 🧪 Test
-          run: npm run RegressionTests
+    - name: 🧪 Run Tests
+      run: npm run RegressionTests
 
-        - name: 📦 Upload Logs
-          uses: actions/upload-artifact@v4
-          with:
-            name: Allure Reports
-            path: './allure-report'
+    - name: 📊 Generate Allure Report
+      run: npm run allure:generate
+
+    - name: 📤 Deploy Allure Report to GitHub Pages
+      if: success()
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./allure-report
