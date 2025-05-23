@@ -16,7 +16,7 @@ describe('Login Page Test',async()=>{
    it('Login with valid credentials--Smoke, Regression',async()=>{
       await browser.url('/')
       await loginPage.login('standard_user','secret_sauce')
-      await expect(browser).toHaveUrl(expect.stringContaining('inventory.htmls'));
+      await expect(browser).toHaveUrl(expect.stringContaining('inventory.html'));
       const productText = await $('.title').getText()
       chaiExpect(await productText).to.equal('Products')
    })
