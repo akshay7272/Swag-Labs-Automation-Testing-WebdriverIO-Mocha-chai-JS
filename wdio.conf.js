@@ -55,7 +55,7 @@ exports.config = {
       acceptInsecureCerts: true,
       'goog:chromeOptions': {
         args: [
-        //   '--headless=new', 
+          '--headless=new', 
           '--start-maximized',
           '--disable-infobars',
           '--disable-popup-blocking',
